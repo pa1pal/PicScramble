@@ -1,8 +1,8 @@
-package pa1pal.picscramble;
+package pa1pal.picscramble.main;
 
 import java.util.List;
 
-import pa1pal.picscramble.data.FlickrModel;
+import pa1pal.picscramble.data.model.FlickrModel;
 
 /**
  * Created by pa1pal on 9/4/17.

@@ -36,4 +36,5 @@ dependencies {
     compile "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:$rootProject.retrofit2RxAdapter"
     compile "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
     compile "com.squareup.okhttp3:okhttp-urlconnection:$rootProject.okhttpVersion"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofit2Version"
 }

@@ -1,4 +1,4 @@
-package pa1pal.picscramble.data;
+package pa1pal.picscramble.data.model;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -24,6 +24,15 @@ public class MainContract {
          * @param randomImages List of images
          */
         void setUpAdapter(List<Item> randomImages);
+
+        /**
+         * It tell the current status of the game such as playing, won and not yet started
+         * @param status
+         * status 1 for not started
+         * status 2 for playing
+         * status 3 won
+         */
+        //void gameStatus(int status);
     }
 
     interface Presenter {

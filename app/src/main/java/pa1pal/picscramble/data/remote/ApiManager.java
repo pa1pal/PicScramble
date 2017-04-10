@@ -15,9 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiManager {
 
-    public static final String FLICKR_OPEN_API_URL = "https://api.flickr" +
-            ".com/services/feeds/photos_public.gne?format=json&nojsoncallback=1";
-    //public static final String RMS_BASE_URL = "https://gist.githubusercontent.com/";
+    public static final String FLICKR_OPEN_API_URL = "https://api.flickr.com/";
 
     public FlickrWebService getApi() {
 

@@ -1,10 +1,12 @@
 package pa1pal.picscramble.main;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Chronometer;
 
 import java.util.List;
 
@@ -18,6 +20,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @BindView(R.id.images_grid)
     RecyclerView flickrImagesGrid;
 
+    @BindView(R.id.timer)
+    Chronometer gameTimer;
+
     MainAdapter mainAdapter;
     MainPresenter mainPresenter;
 
@@ -29,6 +34,20 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mainAdapter = new MainAdapter();
         mainPresenter = new MainPresenter(this);
         mainAdapter.setContext(this);
+        mainPresenter.attachView(this);
+        setUpRecyclerView();
+        mainPresenter.loadImages();
+
+        new CountDownTimer(10000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                gameTimer.setText("seconds remaining: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                mainAdapter.gameStatus(3);
+            }
+        }.start();
     }
 
     @Override
@@ -38,16 +57,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void setUpRecyclerView() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this,
-                LinearLayoutManager.VERTICAL, false);
-        flickrImagesGrid.setLayoutManager(linearLayoutManager);
+        GridLayoutManager gridLayoutManager= new GridLayoutManager(MainActivity.this,
+                3);
+        flickrImagesGrid.setLayoutManager(gridLayoutManager);
         flickrImagesGrid.setItemAnimator(new DefaultItemAnimator());
         flickrImagesGrid.setAdapter(mainAdapter);
     }
 
     @Override
     public void setUpAdapter(List<Item> randomImages) {
-        mainAdapter.setImages(randomImages);
+        mainAdapter.setImages(randomImages.subList(0, 9));
     }
 
     @Override

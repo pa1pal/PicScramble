@@ -9,7 +9,7 @@ import retrofit2.http.GET;
  */
 
 public interface FlickrWebService {
-    @GET("")
+    @GET("services/feeds/photos_public.gne?format=json&nojsoncallback=1")
     Observable<FlickrModel> getRandomImages();
 
 }

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,7 +24,12 @@ import pa1pal.picscramble.data.model.Item;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     Context context;
-    private List<Item> itemList;
+    private int gameStatus;
+    private List<Item> itemList = new ArrayList<>();
+
+    public MainAdapter() {
+        this.gameStatus = 1;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,9 +42,22 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Picasso.with(context)
-                .load(itemList.get(position).getMedia().getM())
-                .into(holder.randomImage);
+        switch (gameStatus) {
+            case 1:
+
+            case 2:
+                Picasso.with(context)
+                        .load(itemList.get(position).getMedia().getM())
+                        .into(holder.randomImage);
+                break;
+            case 3:
+                Picasso.with(context)
+                        .load(R.drawable.ic_image)
+                        .into(holder.randomImage);
+                break;
+
+        }
+
     }
 
     @Override
@@ -48,6 +67,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    public void gameStatus(int status) {
+        this.gameStatus = status;
+        notifyDataSetChanged();
     }
 
     public void setImages(List<Item> p) {

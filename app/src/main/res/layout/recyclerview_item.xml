@@ -5,6 +5,7 @@
 
     <ImageView
         android:id="@+id/random_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_android_black_24dp"/>
 </LinearLayout>

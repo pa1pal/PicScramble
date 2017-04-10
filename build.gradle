@@ -31,4 +31,5 @@ ext {
     retrofit2Version = '2.2.0'
     retrofit2RxAdapter = '1.0.0'
     okhttpVersion = '3.6.0'
+    picassoVersion = '2.5.2'
 }

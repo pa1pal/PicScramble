@@ -2,8 +2,10 @@ package pa1pal.picscramble.data.remote;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import pa1pal.picscramble.data.model.FlickrModel;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -32,6 +34,10 @@ public class ApiManager {
                 .build();
 
         return retrofit.create(FlickrWebService.class);
+    }
+
+    public Observable<FlickrModel> getImages(){
+        return getApi().getRandomImages();
     }
 
 }

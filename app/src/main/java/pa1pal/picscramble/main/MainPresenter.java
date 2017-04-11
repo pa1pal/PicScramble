@@ -2,12 +2,16 @@ package pa1pal.picscramble.main;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import pa1pal.picscramble.base.BasePresenter;
 import pa1pal.picscramble.data.model.FlickrModel;
+import pa1pal.picscramble.data.model.Item;
 import pa1pal.picscramble.data.remote.ApiManager;
 
 /**
@@ -18,6 +22,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
         .Presenter {
 
     Context context;
+    private List<Item> imagesList = new ArrayList<>();
     private CompositeDisposable compositeDisposable;
     private ApiManager apiManager = new ApiManager();
 
@@ -60,7 +65,11 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
 
     @Override
     public void handleImages(FlickrModel randomImages) {
-        getMvpView().setUpAdapter(randomImages.getItems());
+        for (int i = 0 ; i< 9; i++){
+            randomImages.getItems().get(i).setFound(false);
+            imagesList.add(randomImages.getItems().get(i));
+        }
+        getMvpView().setUpAdapter(imagesList);
         getMvpView().showComplete();
     }
 

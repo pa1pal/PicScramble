@@ -14,11 +14,21 @@ public class Item {
     @SerializedName("author_id")
     private String authorId;
 
+    private boolean found;
+
     public Media getMedia() {
         return media;
     }
 
     public String getAuthorId() {
         return authorId;
+    }
+
+    public boolean isFound() {
+        return found;
+    }
+
+    public void setFound(boolean found) {
+        this.found = found;
     }
 }

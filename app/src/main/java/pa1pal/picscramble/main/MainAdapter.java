@@ -49,15 +49,18 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 Picasso.with(context)
                         .load(itemList.get(position).getMedia().getM())
                         .into(holder.randomImage);
+                holder.randomImage.setOnClickListener(null);
                 break;
             case 3:
-                Picasso.with(context)
-                        .load(R.drawable.ic_image)
-                        .into(holder.randomImage);
+                if (itemList.get(position).isFound()){
+                    Picasso.with(context).load(itemList.get(position).getMedia().getM()).into(holder
+                            .randomImage);
+                }else {
+                    Picasso.with(context).load(R.drawable.ic_image).placeholder(R.drawable.ic_image).into(holder.randomImage);
+                }
+
                 break;
-
         }
-
     }
 
     @Override
@@ -74,6 +77,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void itemFound(int position){
+        this.itemList.get(position).setFound(true);
+        notifyDataSetChanged();
+    }
     public void setImages(List<Item> p) {
         itemList = p;
         notifyDataSetChanged();

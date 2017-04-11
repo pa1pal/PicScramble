@@ -1,4 +1,4 @@
-package pa1pal.picscramble;
+package pa1pal.picscramble.score;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import pa1pal.picscramble.menu.Menu;
+import pa1pal.picscramble.R;
 import pa1pal.picscramble.main.MainActivity;
 
 public class Scores extends AppCompatActivity implements ImageButton.OnClickListener{
@@ -41,9 +43,9 @@ public class Scores extends AppCompatActivity implements ImageButton.OnClickList
 
         actionHome.setOnClickListener(this);
         replay.setOnClickListener(this);
-        score = (int) getIntent().getExtras().get("cs");
-        isHighScore = (boolean) getIntent().getExtras().getBoolean("hs");
-        scoreText.setText("You did it in " + String.valueOf(score)+ "Clicks");
+        score = (int) getIntent().getExtras().get(getString(R.string.current_score));
+        isHighScore = (boolean) getIntent().getExtras().getBoolean(getString(R.string.highscore));
+        scoreText.setText(getString(R.string.you_did_it) + String.valueOf(score)+ getString(R.string.clicks));
         if (isHighScore) {
             nHighScore.setVisibility(View.VISIBLE);
             highScoreTrophy.setVisibility(View.VISIBLE);

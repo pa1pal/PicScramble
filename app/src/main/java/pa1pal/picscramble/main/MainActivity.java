@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
@@ -25,7 +24,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pa1pal.picscramble.R;
-import pa1pal.picscramble.Scores;
+import pa1pal.picscramble.score.Scores;
 import pa1pal.picscramble.data.model.Item;
 import pa1pal.picscramble.utils.RecyclerItemClickListner;
 
@@ -53,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private int highScore;
     private SharedPreferences highScoresPrefs;
     private SharedPreferences.Editor editor;
+    RecyclerItemClickListner.OnItemClickListener onItemClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +67,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         imageList = new ArrayList<>();
         setUpRecyclerView();
         mainPresenter.loadImages();
-        highScoresPrefs = MainActivity.this.getSharedPreferences("scores", Context.MODE_PRIVATE);
-        highScore = highScoresPrefs.getInt("score", 1000);
+        highScoresPrefs = MainActivity.this.getSharedPreferences(getString(R.string.scores), Context.MODE_PRIVATE);
+        highScore = highScoresPrefs.getInt(getString(R.string.score), 1000);
+        onItemClickListener = this;
     }
 
     @Override
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         new CountDownTimer(15000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                gameTimer.setText(millisUntilFinished / 1000 + "  Seconds Remaining ");
+                gameTimer.setText(millisUntilFinished / 1000 + getString(R.string.sec_remain));
             }
 
             public void onFinish() {
@@ -85,7 +86,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 showRandomImage();
                 mainAdapter.gameStatus(3);
                 clickCounterText.setVisibility(View.VISIBLE);
-                //flickrImagesGrid.setClickable(true);
+                flickrImagesGrid.addOnItemTouchListener(new RecyclerItemClickListner
+                        (getApplicationContext(), onItemClickListener));
             }
         }.start();
     }
@@ -96,8 +98,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 3);
         flickrImagesGrid.setLayoutManager(gridLayoutManager);
         flickrImagesGrid.setItemAnimator(new DefaultItemAnimator());
-        flickrImagesGrid.addOnItemTouchListener(new RecyclerItemClickListner
-                (getApplicationContext(), this));
+//        flickrImagesGrid.addOnItemTouchListener(new RecyclerItemClickListner
+//                (getApplicationContext(), this));
+        flickrImagesGrid.addOnItemTouchListener(null);
         flickrImagesGrid.setAdapter(mainAdapter);
     }
 
@@ -108,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         //mainAdapter.setImages(randomImages.subList(0, 9));
     }
 
+    @Override
     public void showRandomImage() {
         int position = generateRandom();
         Picasso.with(this)
@@ -115,7 +119,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 .into(questionImage);
     }
 
-    private int generateRandom() {
+    @Override
+    public int generateRandom() {
         Random random = new Random();
         randomNumber = -1;
         boolean notOpenYet = false;
@@ -137,9 +142,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void onItemClick(View childView, int position) {
-        Log.d("idk", "random no: " + randomNumber + " position : " + position);
         clickCounter++;
-        clickCounterText.setText(clickCounter + " Clicks");
+        clickCounterText.setText(clickCounter + getString(R.string.clicks));
 
         if (position == randomNumber) {
             openImages.add(randomNumber);
@@ -152,22 +156,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 showRandomImage();
             }
         } else {
-            Toast.makeText(this, "Try again", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.tryagain, Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showScores() {
+    @Override
+    public void showScores() {
         Intent scoreIntent = new Intent(this, Scores.class);
         mainAdapter.gameStatus(2);
         if (highScore < clickCounter) {
-            scoreIntent.putExtra("hs", false);
-            scoreIntent.putExtra("cs", clickCounter);
+            scoreIntent.putExtra(getString(R.string.highscore), false);
         } else {
             highScore = clickCounter;
-            scoreIntent.putExtra("hs", true);
-            scoreIntent.putExtra("cs", clickCounter);
-            highScoresPrefs.edit().putInt("score", highScore).apply();
+            scoreIntent.putExtra(getString(R.string.highscore), true);
+            highScoresPrefs.edit().putInt(getString(R.string.score), highScore).apply();
         }
+
+        scoreIntent.putExtra(getString(R.string.current_score), clickCounter);
         startActivity(scoreIntent);
         finish();
     }

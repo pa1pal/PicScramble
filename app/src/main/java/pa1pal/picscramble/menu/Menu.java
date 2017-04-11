@@ -1,4 +1,4 @@
-package pa1pal.picscramble;
+package pa1pal.picscramble.menu;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pa1pal.picscramble.R;
+import pa1pal.picscramble.highscore.HighScore;
 import pa1pal.picscramble.main.MainActivity;
 
 public class Menu extends AppCompatActivity{

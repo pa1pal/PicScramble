@@ -1,4 +1,4 @@
-package pa1pal.picscramble;
+package pa1pal.picscramble.highscore;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import pa1pal.picscramble.R;
 
 public class HighScore extends AppCompatActivity {
 
@@ -19,10 +20,12 @@ public class HighScore extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_high_score);
 
-        SharedPreferences sharedPreferences = HighScore.this.getSharedPreferences("scores", Context
+        SharedPreferences sharedPreferences = HighScore.this.getSharedPreferences(getString(R
+                .string.scores), Context
                 .MODE_PRIVATE);
         ButterKnife.bind(this);
 
-        bestScore.setText((sharedPreferences.getInt("score", 0) + " Clicks"));
+        bestScore.setText((sharedPreferences.getInt(getString(R.string.score), 0) + getString(R
+                .string.clicks)));
     }
 }

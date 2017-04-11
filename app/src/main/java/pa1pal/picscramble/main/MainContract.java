@@ -26,13 +26,20 @@ public class MainContract {
         void setUpAdapter(List<Item> randomImages);
 
         /**
-         * It tell the current status of the game such as playing, won and not yet started
-         * @param status
-         * status 1 for not started
-         * status 2 for playing
-         * status 3 won
+         * Function to show the random picked image
          */
-        //void gameStatus(int status);
+        void showRandomImage();
+
+        /**
+         * function to generate random number between 0 to 8
+         * @return random number
+         */
+        int generateRandom();
+
+        /**
+         * function to show scores after game ends. It also put best score in shared pref
+         */
+        void showScores();
     }
 
     interface Presenter {

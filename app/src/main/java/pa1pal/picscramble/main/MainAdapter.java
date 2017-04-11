@@ -44,12 +44,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         switch (gameStatus) {
             case 1:
-
             case 2:
                 Picasso.with(context)
                         .load(itemList.get(position).getMedia().getM())
                         .into(holder.randomImage);
-                holder.randomImage.setOnClickListener(null);
                 break;
             case 3:
                 if (itemList.get(position).isFound()){

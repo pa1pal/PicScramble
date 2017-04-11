@@ -3,4 +3,12 @@
     <string name="your_high_score">Your Best Scores</string>
     <string name="great">Great !</string>
     <string name="new_best_score">New Best Score</string>
+    <string name="score">score</string>
+    <string name="tryagain">Try again</string>
+    <string name="scores">scores</string>
+    <string name="sec_remain">Seconds Remaining</string>
+    <string name="clicks">Clicks</string>
+    <string name="you_did_it">You did it in</string>
+    <string name="current_score">cs</string>
+    <string name="highscore">hs</string>
 </resources>

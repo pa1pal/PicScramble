@@ -13,15 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".main.MainActivity" />
-        <activity android:name=".Menu">
+        <activity android:name=".menu.Menu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HighScore" />
-        <activity android:name=".Scores"></activity>
+        <activity android:name=".highscore.HighScore" />
+        <activity android:name=".score.Scores"></activity>
     </application>
 
 </manifest>

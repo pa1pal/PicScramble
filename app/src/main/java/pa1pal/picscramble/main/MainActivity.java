@@ -24,8 +24,8 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pa1pal.picscramble.R;
-import pa1pal.picscramble.score.Scores;
 import pa1pal.picscramble.data.model.Item;
+import pa1pal.picscramble.score.Scores;
 import pa1pal.picscramble.utils.RecyclerItemClickListner;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View,
@@ -47,12 +47,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     List<Item> imageList;
     MainAdapter mainAdapter;
     MainPresenter mainPresenter;
+    RecyclerItemClickListner.OnItemClickListener onItemClickListener;
     private int randomNumber;
     private int clickCounter = 0;
     private int highScore;
     private SharedPreferences highScoresPrefs;
     private SharedPreferences.Editor editor;
-    RecyclerItemClickListner.OnItemClickListener onItemClickListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         imageList = new ArrayList<>();
         setUpRecyclerView();
         mainPresenter.loadImages();
-        highScoresPrefs = MainActivity.this.getSharedPreferences(getString(R.string.scores), Context.MODE_PRIVATE);
+        highScoresPrefs = MainActivity.this.getSharedPreferences(getString(R.string.scores),
+                Context.MODE_PRIVATE);
         highScore = highScoresPrefs.getInt(getString(R.string.score), 1000);
         onItemClickListener = this;
     }
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         flickrImagesGrid.setItemAnimator(new DefaultItemAnimator());
 //        flickrImagesGrid.addOnItemTouchListener(new RecyclerItemClickListner
 //                (getApplicationContext(), this));
-        flickrImagesGrid.addOnItemTouchListener(null);
+        flickrImagesGrid.setOnClickListener(null);
         flickrImagesGrid.setAdapter(mainAdapter);
     }
 

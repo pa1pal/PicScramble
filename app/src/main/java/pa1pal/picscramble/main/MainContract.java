@@ -11,7 +11,7 @@ import pa1pal.picscramble.data.model.Item;
  */
 
 public class MainContract {
-    interface View extends MvpView{
+    interface View extends MvpView {
 
         /**
          * Setting up the recyclerView and Layout manager
@@ -32,6 +32,7 @@ public class MainContract {
 
         /**
          * function to generate random number between 0 to 8
+         *
          * @return random number
          */
         int generateRandom();

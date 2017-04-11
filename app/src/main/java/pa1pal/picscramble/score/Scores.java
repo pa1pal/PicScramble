@@ -10,11 +10,11 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pa1pal.picscramble.menu.Menu;
 import pa1pal.picscramble.R;
 import pa1pal.picscramble.main.MainActivity;
+import pa1pal.picscramble.menu.Menu;
 
-public class Scores extends AppCompatActivity implements ImageButton.OnClickListener{
+public class Scores extends AppCompatActivity implements ImageButton.OnClickListener {
 
     @BindView(R.id.score)
     TextView scoreText;
@@ -36,7 +36,7 @@ public class Scores extends AppCompatActivity implements ImageButton.OnClickList
     int score;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scores);
         ButterKnife.bind(this);
@@ -45,7 +45,8 @@ public class Scores extends AppCompatActivity implements ImageButton.OnClickList
         replay.setOnClickListener(this);
         score = (int) getIntent().getExtras().get(getString(R.string.current_score));
         isHighScore = (boolean) getIntent().getExtras().getBoolean(getString(R.string.highscore));
-        scoreText.setText(getString(R.string.you_did_it) + String.valueOf(score)+ getString(R.string.clicks));
+        scoreText.setText(getString(R.string.you_did_it) + String.valueOf(score) + getString(R
+                .string.clicks));
         if (isHighScore) {
             nHighScore.setVisibility(View.VISIBLE);
             highScoreTrophy.setVisibility(View.VISIBLE);
@@ -72,11 +73,11 @@ public class Scores extends AppCompatActivity implements ImageButton.OnClickList
         switch (v.getId()) {
             case R.id.home:
                 goToHome(homeIntent);
-            break;
+                break;
 
             case R.id.replay:
                 beginPlayingGame(replayIntent);
-            break;
+                break;
         }
 
     }

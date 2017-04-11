@@ -12,7 +12,7 @@ import pa1pal.picscramble.R;
 import pa1pal.picscramble.highscore.HighScore;
 import pa1pal.picscramble.main.MainActivity;
 
-public class Menu extends AppCompatActivity{
+public class Menu extends AppCompatActivity {
 
     @BindView(R.id.highscore)
     Button highScore;
@@ -26,13 +26,13 @@ public class Menu extends AppCompatActivity{
     }
 
     @OnClick(R.id.newgame)
-    void newGame(){
+    void newGame() {
         Intent newGameIntent = new Intent(this, MainActivity.class);
         startActivity(newGameIntent);
     }
 
     @OnClick(R.id.highscore)
-    void highScore(){
+    void highScore() {
         Intent highScoreIntent = new Intent(this, HighScore.class);
         startActivity(highScoreIntent);
     }

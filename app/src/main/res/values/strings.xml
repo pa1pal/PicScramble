@@ -11,4 +11,6 @@
     <string name="you_did_it">You did it in</string>
     <string name="current_score">cs</string>
     <string name="highscore">hs</string>
+    <string name="desc">You will have 15 seconds to remember the positions of 9 images in a grid, after that your have to find those positions in minimum clicks possible. The timer will start as soon
+    as you click on new Game.</string>
 </resources>

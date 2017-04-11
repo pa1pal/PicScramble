@@ -65,7 +65,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
 
     @Override
     public void handleImages(FlickrModel randomImages) {
-        for (int i = 0 ; i< 9; i++){
+        for (int i = 0; i < 9; i++) {
             randomImages.getItems().get(i).setFound(false);
             imagesList.add(randomImages.getItems().get(i));
         }

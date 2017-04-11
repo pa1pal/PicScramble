@@ -34,7 +34,7 @@ public class ApiManager {
         return retrofit.create(FlickrWebService.class);
     }
 
-    public Observable<FlickrModel> getImages(){
+    public Observable<FlickrModel> getImages() {
         return getApi().getRandomImages();
     }
 

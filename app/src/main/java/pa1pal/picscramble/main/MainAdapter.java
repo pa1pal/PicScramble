@@ -47,14 +47,19 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             case 2:
                 Picasso.with(context)
                         .load(itemList.get(position).getMedia().getM())
+                        .fit()
                         .into(holder.randomImage);
                 break;
             case 3:
                 if (itemList.get(position).isFound()){
-                    Picasso.with(context).load(itemList.get(position).getMedia().getM()).into(holder
-                            .randomImage);
+                    Picasso.with(context).load(itemList.get(position).getMedia().getM())
+                            .fit()
+                            .into(holder.randomImage);
                 }else {
-                    Picasso.with(context).load(R.drawable.ic_image).placeholder(R.drawable.ic_image).into(holder.randomImage);
+                    Picasso.with(context).load(R.drawable.ic_image)
+                            .placeholder(R.drawable.ic_image)
+                            .fit()
+                            .into(holder.randomImage);
                 }
 
                 break;

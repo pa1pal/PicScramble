@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 questionImage.setVisibility(View.VISIBLE);
                 showRandomImage();
                 mainAdapter.gameStatus(3);
+                clickCounterText.setVisibility(View.VISIBLE);
                 //flickrImagesGrid.setClickable(true);
             }
         }.start();
@@ -127,6 +128,9 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onItemClick(View childView, int position) {
         Log.d("idk", "random no: "+randomNumber + " position : "+ position);
+        clickCounter++;
+        clickCounterText.setText(clickCounter + " Clicks");
+
         if (position == randomNumber){
             openImages.add(randomNumber);
             imageList.get(position).setFound(true);

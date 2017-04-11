@@ -28,4 +28,10 @@ public class Menu extends AppCompatActivity{
         Intent newGameIntent = new Intent(this, MainActivity.class);
         startActivity(newGameIntent);
     }
+
+    @OnClick(R.id.highscore)
+    void highScore(){
+        Intent highScoreIntent = new Intent(this, HighScore.class);
+        startActivity(highScoreIntent);
+    }
 }

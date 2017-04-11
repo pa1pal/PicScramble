@@ -39,6 +39,7 @@
             android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="score"
             android:textSize="25sp"/>
 
     </LinearLayout>
@@ -56,30 +57,23 @@
     <LinearLayout
         android:layout_below="@id/highscoretrophy"
         android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:orientation="horizontal"
         android:id="@+id/linearLayout">
 
         <ImageButton
             android:id="@+id/home"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:src="@drawable/ic_home_black_24dp"
             android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/replay"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:src="@drawable/ic_replay_black_24dp"
-            android:layout_weight="1" />
-
-        <ImageButton
-            android:id="@+id/sharescore"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_share_black_24dp"
             android:layout_weight="1" />
 
     </LinearLayout>

@@ -35,17 +35,5 @@
             android:layout_height="wrap_content"
             android:textSize="25sp" />
 
-        <TextView
-            android:id="@+id/shs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp" />
-
-        <TextView
-            android:id="@+id/ths"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="25sp" />
-
     </LinearLayout>
 </RelativeLayout>

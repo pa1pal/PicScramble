@@ -37,6 +37,7 @@ dependencies {
     compile "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttpVersion"
     compile "com.squareup.okhttp3:okhttp-urlconnection:$rootProject.okhttpVersion"
     compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofit2Version"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile "com.android.support.constraint:constraint-layout:$rootProject.constraintLayoutVersion"
+    compile "com.facebook.stetho:stetho:$rootProject.stethoVersion"
     testCompile 'junit:junit:4.12'
 }

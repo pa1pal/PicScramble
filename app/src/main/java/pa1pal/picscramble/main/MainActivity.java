@@ -1,5 +1,8 @@
 package pa1pal.picscramble.main;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -22,11 +25,12 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pa1pal.picscramble.R;
+import pa1pal.picscramble.Scores;
 import pa1pal.picscramble.data.model.Item;
 import pa1pal.picscramble.utils.RecyclerItemClickListner;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View,
-        RecyclerItemClickListner.OnItemClickListener{
+        RecyclerItemClickListner.OnItemClickListener {
 
     @BindView(R.id.images_grid)
     RecyclerView flickrImagesGrid;
@@ -45,7 +49,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     MainAdapter mainAdapter;
     MainPresenter mainPresenter;
     private int randomNumber;
-    private int clickCounter=0;
+    private int clickCounter = 0;
+    private int highScore;
+    private SharedPreferences highScoresPrefs;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         imageList = new ArrayList<>();
         setUpRecyclerView();
         mainPresenter.loadImages();
+        highScoresPrefs = MainActivity.this.getSharedPreferences("scores", Context.MODE_PRIVATE);
+        highScore = highScoresPrefs.getInt("score", 1000);
     }
 
     @Override
@@ -69,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             public void onTick(long millisUntilFinished) {
                 gameTimer.setText(millisUntilFinished / 1000 + "  Seconds Remaining ");
             }
+
             public void onFinish() {
                 gameTimer.setVisibility(View.GONE);
                 questionImage.setVisibility(View.VISIBLE);
@@ -82,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void setUpRecyclerView() {
-        GridLayoutManager gridLayoutManager= new GridLayoutManager(MainActivity.this,
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(MainActivity.this,
                 3);
         flickrImagesGrid.setLayoutManager(gridLayoutManager);
         flickrImagesGrid.setItemAnimator(new DefaultItemAnimator());
@@ -110,13 +120,13 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         randomNumber = -1;
         boolean notOpenYet = false;
 
-        while (!notOpenYet){
+        while (!notOpenYet) {
             randomNumber = random.nextInt((8 - 0) + 1) + 0;
-            if (!openImages.contains(randomNumber)){
+            if (!openImages.contains(randomNumber)) {
                 notOpenYet = true;
             }
         }
-       return randomNumber;
+        return randomNumber;
     }
 
     @Override
@@ -127,23 +137,39 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void onItemClick(View childView, int position) {
-        Log.d("idk", "random no: "+randomNumber + " position : "+ position);
+        Log.d("idk", "random no: " + randomNumber + " position : " + position);
         clickCounter++;
         clickCounterText.setText(clickCounter + " Clicks");
 
-        if (position == randomNumber){
+        if (position == randomNumber) {
             openImages.add(randomNumber);
             imageList.get(position).setFound(true);
             mainAdapter.itemFound(position);
 
-            if (openImages.size() == 9){
-                mainAdapter.gameStatus(2);
-            }else{
+            if (openImages.size() == 9) {
+                showScores();
+            } else {
                 showRandomImage();
             }
         } else {
             Toast.makeText(this, "Try again", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void showScores() {
+        Intent scoreIntent = new Intent(this, Scores.class);
+        mainAdapter.gameStatus(2);
+        if (highScore < clickCounter) {
+            scoreIntent.putExtra("hs", false);
+            scoreIntent.putExtra("cs", clickCounter);
+        } else {
+            highScore = clickCounter;
+            scoreIntent.putExtra("hs", true);
+            scoreIntent.putExtra("cs", clickCounter);
+            highScoresPrefs.edit().putInt("score", highScore).apply();
+        }
+        startActivity(scoreIntent);
+        finish();
     }
 
     @Override

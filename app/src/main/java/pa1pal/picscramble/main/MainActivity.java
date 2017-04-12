@@ -29,7 +29,8 @@ import pa1pal.picscramble.score.Scores;
 import pa1pal.picscramble.utils.RecyclerItemClickListner;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View,
-        RecyclerItemClickListner.OnItemClickListener {
+        RecyclerItemClickListner.OnItemClickListener,
+        ImageLoad {
 
     @BindView(R.id.images_grid)
     RecyclerView flickrImagesGrid;
@@ -181,5 +182,10 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void onItemLongPress(View childView, int position) {
 
+    }
+
+    @Override
+    public void isLoaded() {
+        showComplete();
     }
 }

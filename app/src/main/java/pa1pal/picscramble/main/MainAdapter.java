@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import pa1pal.picscramble.data.model.Item;
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
 
     Context context;
+    ImageLoad imageLoad;
     private int gameStatus;
     private List<Item> itemList = new ArrayList<>();
 
@@ -41,21 +43,34 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         switch (gameStatus) {
             case 1:
             case 2:
                 Picasso.with(context)
                         .load(itemList.get(position).getMedia().getM())
                         .fit()
-                        .into(holder.randomImage);
+                        .into(holder.randomImage, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                if (context instanceof ImageLoad) {
+                                    if (position == 8)
+                                        ((ImageLoad) context).isLoaded();
+                                }
+                            }
+
+                            @Override
+                            public void onError() {
+
+                            }
+                        });
                 break;
             case 3:
-                if (itemList.get(position).isFound()){
+                if (itemList.get(position).isFound()) {
                     Picasso.with(context).load(itemList.get(position).getMedia().getM())
                             .fit()
                             .into(holder.randomImage);
-                }else {
+                } else {
                     Picasso.with(context).load(R.drawable.ic_image)
                             .placeholder(R.drawable.ic_image)
                             .fit()
@@ -80,10 +95,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void itemFound(int position){
+    public void itemFound(int position) {
         this.itemList.get(position).setFound(true);
         notifyDataSetChanged();
     }
+
     public void setImages(List<Item> p) {
         itemList = p;
         notifyDataSetChanged();

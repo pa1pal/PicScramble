@@ -70,7 +70,6 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
             imagesList.add(randomImages.getItems().get(i));
         }
         getMvpView().setUpAdapter(imagesList);
-        getMvpView().showComplete();
     }
 
     @Override

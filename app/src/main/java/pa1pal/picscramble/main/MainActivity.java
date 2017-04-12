@@ -43,34 +43,29 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         ImageLoad,
         LocationListener {
 
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     @BindView(R.id.images_grid)
     RecyclerView flickrImagesGrid;
-
     @BindView(R.id.timer)
     Chronometer gameTimer;
-
     @BindView(R.id.questionImage)
     ImageView questionImage;
-
     @BindView(R.id.click_counter)
     TextView clickCounterText;
-
     @BindView(R.id.latlang)
     TextView latlang;
-
     List<Integer> openImages;
     List<Item> imageList;
     MainAdapter mainAdapter;
     MainPresenter mainPresenter;
     RecyclerItemClickListner.OnItemClickListener onItemClickListener;
     String provider;
+    LocationManager locationManager;
     private int randomNumber;
     private int clickCounter = 0;
     private int highScore;
     private SharedPreferences highScoresPrefs;
     private SharedPreferences.Editor editor;
-    LocationManager locationManager;
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

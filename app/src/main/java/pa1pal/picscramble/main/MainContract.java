@@ -58,7 +58,7 @@ public class MainContract {
         void handleError(Throwable error);
 
         /**
-         * Function to handle the data coming from server. Like handling the patients list
+         * funtion to handle images from flickr api
          *
          * @param randomImages random images
          */

@@ -81,7 +81,5 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
     public void detachView() {
         super.detachView();
         if (compositeDisposable != null) compositeDisposable.dispose();
-
     }
-
 }

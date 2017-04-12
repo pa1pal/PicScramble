@@ -1,10 +1,20 @@
 package pa1pal.picscramble.main;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,7 +40,8 @@ import pa1pal.picscramble.utils.RecyclerItemClickListner;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View,
         RecyclerItemClickListner.OnItemClickListener,
-        ImageLoad {
+        ImageLoad,
+        LocationListener {
 
     @BindView(R.id.images_grid)
     RecyclerView flickrImagesGrid;
@@ -44,16 +55,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @BindView(R.id.click_counter)
     TextView clickCounterText;
 
+    @BindView(R.id.latlang)
+    TextView latlang;
+
     List<Integer> openImages;
     List<Item> imageList;
     MainAdapter mainAdapter;
     MainPresenter mainPresenter;
     RecyclerItemClickListner.OnItemClickListener onItemClickListener;
+    String provider;
     private int randomNumber;
     private int clickCounter = 0;
     private int highScore;
     private SharedPreferences highScoresPrefs;
     private SharedPreferences.Editor editor;
+    LocationManager locationManager;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,10 +85,14 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         imageList = new ArrayList<>();
         setUpRecyclerView();
         mainPresenter.loadImages();
+
         highScoresPrefs = MainActivity.this.getSharedPreferences(getString(R.string.scores),
                 Context.MODE_PRIVATE);
         highScore = highScoresPrefs.getInt(getString(R.string.score), 1000);
         onItemClickListener = this;
+        locationManager = (LocationManager) getSystemService(Context
+                .LOCATION_SERVICE);
+
     }
 
     @Override
@@ -100,8 +121,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
                 3);
         flickrImagesGrid.setLayoutManager(gridLayoutManager);
         flickrImagesGrid.setItemAnimator(new DefaultItemAnimator());
-//        flickrImagesGrid.addOnItemTouchListener(new RecyclerItemClickListner
-//                (getApplicationContext(), this));
         flickrImagesGrid.setOnClickListener(null);
         flickrImagesGrid.setAdapter(mainAdapter);
     }
@@ -110,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void setUpAdapter(List<Item> randomImages) {
         mainAdapter.setImages(randomImages);
         this.imageList = randomImages;
-        //mainAdapter.setImages(randomImages.subList(0, 9));
     }
 
     @Override
@@ -134,6 +152,40 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             }
         }
         return randomNumber;
+    }
+
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            provider = locationManager.getBestProvider(new Criteria(), false);
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.location_permission)
+                        .setMessage(R.string.allow_permission)
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        } else {
+            setLatLang();
+            return true;
+        }
     }
 
     @Override
@@ -173,7 +225,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             scoreIntent.putExtra(getString(R.string.highscore), true);
             highScoresPrefs.edit().putInt(getString(R.string.score), highScore).apply();
         }
-
         scoreIntent.putExtra(getString(R.string.current_score), clickCounter);
         startActivity(scoreIntent);
         finish();
@@ -187,5 +238,63 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     public void isLoaded() {
         showComplete();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        setLatLang();
+                    }
+                } else {
+                }
+                return;
+            }
+
+        }
+    }
+
+    public void setLatLang() {
+        provider = locationManager.getBestProvider(new Criteria(), false);
+        Location location = locationManager.getLastKnownLocation(LocationManager
+                .GPS_PROVIDER);
+        latlang.setText("Lat: " + location.getLatitude() + "\n Lang: " + location
+                .getLongitude());
+        locationManager.requestLocationUpdates(provider, 400, 1, this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (checkLocationPermission()) {
+
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }
